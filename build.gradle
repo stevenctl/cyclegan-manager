@@ -1,0 +1,61 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.slandow'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+task buildVueApp(type: Exec) {
+	def profile = (project.hasProperty('profile') ? project.profile : 'dev').toLowerCase()
+	commandLine "$projectDir/build_frontend.sh", profile
+}
+
+task copyVueApp(type: Copy) {
+	from 'frontend/public' into 'src/main/resources/static'
+}
+
+processResources {
+	buildVueApp
+	copyVueApp
+}
+
+dependencies {
+
+    // Spring
+    compile('org.springframework.boot:spring-boot-starter-web')
+
+    // Security
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('io.jsonwebtoken:jjwt:0.9.0')
+
+    // Groovy Lang
+    compile('org.codehaus.groovy:groovy')
+
+    // Database
+    compile('org.springframework.data:spring-data-mongodb:2.0.6.RELEASE')
+
+    // Test
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
+
+
+}
+
