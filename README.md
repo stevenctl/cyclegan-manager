@@ -16,4 +16,16 @@ Through the web portal you will be able to design job templates, queue jobs and 
 You will also be able to adjust hyperparameters between jobs and compare the results of different parameter adjustments.
 
 
+## Run Locally
 
+Manually:
+```bash
+./build_frontend.sh # or './build_frontend.sh production' to disable Vue's dev mode
+cp -r frontend/public src/main/resources/static
+gradle bootRun # or run with your IDE of choice
+```
+
+With Gradle: 
+```bash
+gradle buildVueApp copyVueApp bootRun # or ./gradlew to use the wrapper
+```
