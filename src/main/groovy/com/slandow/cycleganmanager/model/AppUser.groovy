@@ -10,4 +10,6 @@ class AppUser {
     String username
     String password
 
+
+
 }

@@ -1,13 +1,15 @@
 package com.slandow.cycleganmanager.repository
 
 import com.slandow.cycleganmanager.model.AppUser
-import groovy.transform.TypeChecked
+import com.slandow.cycleganmanager.model.Machine
 import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AppUserRepository extends MongoRepository<AppUser, String> {
+interface MachineRepository extends MongoRepository<Machine, String> {
 
-    AppUser findByUsername(String username)
+    List<Machine> findByOwner(String owner)
+
+    Optional<Machine> findByIdAndOwner(String id, String owner)
 
 }
