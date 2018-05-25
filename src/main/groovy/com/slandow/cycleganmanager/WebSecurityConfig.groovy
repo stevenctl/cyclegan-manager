@@ -3,13 +3,17 @@ package com.slandow.cycleganmanager
 import com.slandow.cycleganmanager.security.JWTAuthenticationFilter
 import com.slandow.cycleganmanager.security.JWTAuthorizationFilter
 import com.slandow.cycleganmanager.security.SecurityConstants
+import com.slandow.cycleganmanager.security.UserDetailsServiceImpl
 import groovy.transform.TypeChecked
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.AccessDeniedException
+import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -23,40 +27,36 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
-
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    private UserDetailsService userDetailsService
+    private UserDetailsServiceImpl userDetailsService
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
+        AuthenticationManager authenticationManager = authenticationManager()
         http
             .cors().and().csrf().disable() // TODO enable these
             .authorizeRequests()
             .antMatchers(*SecurityConstants.UNSECURED_URLS).permitAll()
             .anyRequest().authenticated()
             .and()
-            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-            .addFilter(new JWTAuthorizationFilter(authenticationManager()))
-            .exceptionHandling()
-            .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            .addFilter(new JWTAuthenticationFilter(authenticationManager))
+            .addFilter(new JWTAuthorizationFilter(authenticationManager, userDetailsService))
             // this disables session creation on Spring Security
-            .and()
-
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder)
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(bCryptPasswordEncoder)
     }
 
     @Bean

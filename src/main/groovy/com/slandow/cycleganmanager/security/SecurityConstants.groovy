@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component
 
 class SecurityConstants {
 
-    @Value('${token-gen-secret}')
     public static String SECRET
 
     public static long EXPIRATION_TIME

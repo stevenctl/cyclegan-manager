@@ -9,9 +9,17 @@ security:
 token-expiration: 864_000_000 # 10 days
 token-gen-secret: fj&F0f+=jfn2n2nf
 
+signup-message: 'Welcome to CycleGAN Manager. Please <a href="{verifyurl}">verify your email-address</a>.'
+
 spring:
   data:
     mongodb:
       host: 127.0.0.1
       port: 27017
       database: cyclegan
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: steven@stlcomputerservices.com
+    password: '***REMOVED***'
+    protocol: smtp

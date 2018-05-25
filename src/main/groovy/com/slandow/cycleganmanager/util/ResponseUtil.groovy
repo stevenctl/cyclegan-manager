@@ -31,6 +31,18 @@ class ResponseUtil {
         return responseEntity(HttpStatus.OK, message)
     }
 
+    static ResponseEntity internalError(){
+        return responseEntity(HttpStatus.INTERNAL_SERVER_ERROR, "An internal server error occurred. ")
+    }
+
+    static ResponseEntity internalError(String message) {
+        return responseEntity(HttpStatus.INTERNAL_SERVER_ERROR, message)
+    }
+
+    static ResponseEntity unauthorized(String message) {
+        return responseEntity(HttpStatus.UNAUTHORIZED, message)
+    }
+
     private static String humanReadable(String errorName){
         return errorName
                 .split("_")
@@ -38,5 +50,4 @@ class ResponseUtil {
                 .collect({word -> word.substring(0,1).toUpperCase() + word.substring(1)})
                 .join(" ")
     }
-
 }
