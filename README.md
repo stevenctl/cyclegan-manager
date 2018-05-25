@@ -2,7 +2,7 @@
 
 This project will be a web portal that will utilize:
 
-- Ansible to deploy code to machines 
+- [Paperspace API](https://www.paperspace.com/api) (and maybe AWS, eventually) to access GPU powered machines
 - Groovy/Spring to create a web api for managing jobs runs, machines, etc
 - MongoDB for persistence of jobs, job status, users, machines, etc
 - Vue.js for the single-page-app frontend
