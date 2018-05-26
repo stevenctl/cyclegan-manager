@@ -116,7 +116,7 @@ class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Password must be between ${PasswordUtil.MIN_PASSWORD}" +
                     " and ${PasswordUtil.MAX_PASSWORD} characters," +
                     " contain both uppercase and lowercase letters," +
-                    " a number, and a special character ().")
+                    " a number, and a special character. ")
         }
 
         appUser.password = bCryptPasswordEncoder.encode(appUser.getPassword())

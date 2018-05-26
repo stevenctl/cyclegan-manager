@@ -1,24 +1,21 @@
 package com.slandow.cycleganmanager.services
 
-import com.slandow.cycleganmanager.CycleganManagerApplicationTests
 import com.slandow.cycleganmanager.model.AppUser
 import com.slandow.cycleganmanager.repository.AppUserRepository
 import com.slandow.cycleganmanager.services.impl.UserServiceImpl
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 
-import static junit.framework.TestCase.assertTrue
+import static org.junit.Assert.assertTrue
 import static org.junit.Assert.fail
-import static org.mockito.ArgumentMatchers.eq
 import static org.mockito.Mockito.verify
+import static org.mockito.Mockito.when
 
 @RunWith(SpringRunner)
 class UserService_UT {
@@ -33,9 +30,11 @@ class UserService_UT {
     @Mock
     AppUserRepository userRepository
 
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder()
+
     @InjectMocks
     UserService userService = new UserServiceImpl(
-            bCryptPasswordEncoder: new BCryptPasswordEncoder(),
+            bCryptPasswordEncoder: passwordEncoder,
             signupMessage: SIGNUP_MESSAGE,
             signupSubject: SIGNUP_SUBJECT,
             emailAddress: SYSTEM_EMAIL
@@ -43,11 +42,7 @@ class UserService_UT {
 
     @Test
     void testCreateUserSendsMail() {
-        AppUser userRequest = new AppUser(
-                username: "testuser",
-                password: "Password123!",
-                email: "user@example.com"
-        )
+        AppUser user = new AppUser(username: "username", password: "Password1!", email: "user@example.com")
 
         userService.createUser(userRequest)
 
@@ -58,5 +53,32 @@ class UserService_UT {
                 text: "/verify?user=${userRequest.username}&token=${userRequest.emailToken}"
         ))
     }
+
+    @Test
+    void testCreateUserFailsWhenUsernameExists() {
+        final username = "username"
+        when(userRepository.findByUsername(username)).thenReturn(new AppUser())
+        try {
+            userService.createUser(new AppUser(username: username))
+            fail("Expected An IllegalArgumentException to be thrown")
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.message.contains("user with"))
+            assertTrue(e.message.contains("already exists"))
+        }
+    }
+
+    @Test
+    void testPasswordIsEncoded() {
+        AppUser user = new AppUser(username: "username", password: "Password1!", email: "user@example.com")
+        userService.createUser(user)
+        assertTrue(passwordEncoder.matches("Password1!", user.password))
+    }
+
+    @Test
+    void testCreateUserSavesUser() {
+        AppUser user = new AppUser(username: "username", password: "Password1!", email: "user@example.com")
+        verify(userRepository).save(user)
+    }
+
 
 }
