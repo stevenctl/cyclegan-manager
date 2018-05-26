@@ -135,6 +135,11 @@ class Auth_IT {
                 password: ADMIN_PASSWORD
         ], Object)
 
+        assertEquals(HttpStatus.OK, loginResponse.statusCode)
+        assertTrue(loginResponse.headers.containsKey(SecurityConstants.HEADER_STRING))
+        assertTrue(loginResponse.headers.get(SecurityConstants.HEADER_STRING)[0]
+                .startsWith(SecurityConstants.TOKEN_PREFIX))
+
         MultiValueMap headers = new LinkedMultiValueMap()
         headers.put(SecurityConstants.HEADER_STRING, loginResponse.headers.get(SecurityConstants.HEADER_STRING))
 
