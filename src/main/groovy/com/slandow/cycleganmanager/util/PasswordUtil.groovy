@@ -1,27 +1,6 @@
 package com.slandow.cycleganmanager.util
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class PasswordUtil {
 
     static final String SPECIAL_CHARS = ' !@#$%^&*()_-+=\\|/?.,<>`~[]{}\'";:'
@@ -34,18 +13,18 @@ class PasswordUtil {
     static final int MAX_PASSWORD = 48
 
     static boolean isUsernameValid(String username) {
-        return username.length() >= MIN_USERNAME                                      \
-               && username.length() <= MAX_USERNAME                                   \
-               && SPECIAL_CHARS.findIndexOf { username.contains(it) } < 0
+        return username && username.length() >= MIN_USERNAME                \
+                && username.length() <= MAX_USERNAME                        \
+                && SPECIAL_CHARS.findIndexOf { username.contains(it) } < 0
     }
 
     static boolean isPasswordValid(String password) {
-        return password.length() >= MIN_PASSWORD                                       \
-               && password.length() <= MAX_PASSWORD                                   \
-               && password.toUpperCase() != password                        \
-               && password.toLowerCase() != password                        \
-               && SPECIAL_CHARS.findIndexOf { password.contains(it) } > -1  \
-               && NUMBER_CHARS.findIndexOf { password.contains(it) } > -1
+        return password && password.length() >= MIN_PASSWORD                 \
+                && password.length() <= MAX_PASSWORD                         \
+                && password.toUpperCase() != password                        \
+                && password.toLowerCase() != password                        \
+                && SPECIAL_CHARS.findIndexOf { password.contains(it) } > -1  \
+                && NUMBER_CHARS.findIndexOf { password.contains(it) } > -1
     }
 
 }

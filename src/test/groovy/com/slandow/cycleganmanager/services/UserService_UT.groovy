@@ -1,24 +1,26 @@
 package com.slandow.cycleganmanager.services
 
+import com.slandow.cycleganmanager.CycleganManagerApplicationTests
 import com.slandow.cycleganmanager.model.AppUser
 import com.slandow.cycleganmanager.repository.AppUserRepository
 import com.slandow.cycleganmanager.services.impl.UserServiceImpl
-import groovy.transform.TypeChecked
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentCaptor
+import org.junit.runners.Parameterized
 import org.mockito.InjectMocks
 import org.mockito.Mock
-import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 
-import static junit.framework.TestCase.assertEquals
+import static junit.framework.TestCase.assertTrue
+import static org.junit.Assert.fail
+import static org.mockito.ArgumentMatchers.eq
 import static org.mockito.Mockito.verify
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringRunner)
 class UserService_UT {
 
     private static final String SIGNUP_MESSAGE = "{verifyurl}"
@@ -54,27 +56,6 @@ class UserService_UT {
                 from: SYSTEM_EMAIL,
                 subject: "Welcome",
                 text: "/verify?user=${userRequest.username}&token=${userRequest.emailToken}"
-        ))
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void testCreateUserFailsWhenUsernameTooShort(){
-        userService.createUser(new AppUser(
-                username: "abc"
-        ))
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void testFailsWhenUsernameTooLong(){
-        userService.createUser(new AppUser(
-                username: "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
-        ))
-    }
-
-    @Test(expected = IllegalArgumentException)
-    void testFailsWhenUsernameHasSpecialChars(){
-        userService.createUser(new AppUser(
-                username: "abc!"
         ))
     }
 
