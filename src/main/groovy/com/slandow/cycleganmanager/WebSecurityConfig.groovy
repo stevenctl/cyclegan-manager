@@ -48,6 +48,9 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .addFilter(new JWTAuthenticationFilter(authenticationManager))
             .addFilter(new JWTAuthorizationFilter(authenticationManager, userDetailsService))
+            .exceptionHandling().authenticationEntryPoint({
+                req, res, ex -> res.sendError(HttpStatus.UNAUTHORIZED.value(), "Access denied. Please login. ")
+            }).and()
             // this disables session creation on Spring Security
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     }

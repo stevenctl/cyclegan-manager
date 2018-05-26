@@ -5,6 +5,7 @@ import com.slandow.cycleganmanager.IntegrationTestConfig
 import com.slandow.cycleganmanager.model.AppUser
 import com.slandow.cycleganmanager.repository.AppUserRepository
 import groovy.util.logging.Slf4j
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -65,12 +66,16 @@ class Auth_IT {
         ))
     }
 
+    @After
+    void cleanUp(){
+        userRepository.deleteAll()
+    }
+
     @Test
     void testUnauthorizedWithoutAuthHeader() {
         ResponseEntity usersResponse = restTemplate.getForEntity("/users", Object)
-        log.info(usersResponse.toString())
+        assertEquals(HttpStatus.UNAUTHORIZED, usersResponse.statusCode)
     }
-
     @Test
     void testLogin() {
         ResponseEntity loginResponse = restTemplate.postForEntity("/login", [
@@ -105,7 +110,7 @@ class Auth_IT {
     }
 
     @Test
-    void testAuthenticatedRequestWithoutCorrectRoles(){
+    void testAuthenticatedRequestWithoutCorrectRolesFails(){
         ResponseEntity loginResponse = restTemplate.postForEntity("/login", [
                 username: USER_USERNAME,
                 password: USER_PASSWORD
@@ -113,6 +118,27 @@ class Auth_IT {
 
         MultiValueMap headers = new LinkedMultiValueMap()
         headers.put(SecurityConstants.HEADER_STRING, loginResponse.headers.get(SecurityConstants.HEADER_STRING))
+
+        ResponseEntity authenticatedResponse = restTemplate.exchange(
+                "/users",
+                HttpMethod.GET,
+                new HttpEntity<Object>(headers),
+                Object
+        )
+
+        assertEquals(HttpStatus.UNAUTHORIZED, authenticatedResponse.statusCode)
+    }
+
+    void testAuthenticatedRequestWithNonExistentUserFails(){
+        ResponseEntity loginResponse = restTemplate.postForEntity("/login", [
+                username: ADMIN_USERNAME,
+                password: ADMIN_PASSWORD
+        ], Object)
+
+        MultiValueMap headers = new LinkedMultiValueMap()
+        headers.put(SecurityConstants.HEADER_STRING, loginResponse.headers.get(SecurityConstants.HEADER_STRING))
+
+        userRepository.deleteById(ADMIN_USERNAME)
 
         ResponseEntity authenticatedResponse = restTemplate.exchange(
                 "/users",
