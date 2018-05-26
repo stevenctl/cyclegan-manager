@@ -1,14 +1,14 @@
-import Vue from 'vue'
+import Vue from 'vue/dist/vue'
 import Vuetify from 'vuetify'
-import App from './App'
+import VueRouter from 'vue-router'
+import router from './routes'
 
 Vue.use(Vuetify);
-
-Vue.component('App', App);
+Vue.use(VueRouter);
 
 new Vue({
-    el: '#vue-app',
-    render: function (createElement) {
-        return createElement(App)
-    }
-});
+    router,
+    template: `
+        <router-view></router-view>
+    `
+}).$mount("#vue-app");
