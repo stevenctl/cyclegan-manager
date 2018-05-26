@@ -8,6 +8,7 @@ import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.PageRequest
+import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -31,6 +32,12 @@ class UserServiceImpl implements UserService {
     @Value('${signup-message}')
     private String signupMessage
 
+    @Value('${signup-subject}')
+    private String signupSubject
+
+    @Value('${email-address}')
+    private String emailAddress
+
     @Override
     @Transactional
     void createUser(AppUser user) {
@@ -44,8 +51,13 @@ class UserServiceImpl implements UserService {
         // Send verification email
         user.emailToken = UUID.randomUUID().toString().replaceAll("-", "").toLowerCase()
         user.emailVerified = false
-        SimpleMailMessage message = new SimpleMailMessage()
-        message.text = signupMessage.replace("{verifyurl}", "/verify?user=${user.username}&token=${user.emailToken}")
+
+        mailSender.send(new SimpleMailMessage(
+                to: user.email,
+                from: emailAddress,
+                subject: signupSubject,
+                text: signupMessage.replace("{verifyurl}", "/verify?user=${user.username}&token=${user.emailToken}")
+        ))
 
         // Persist User
         userRepository.save(user)
