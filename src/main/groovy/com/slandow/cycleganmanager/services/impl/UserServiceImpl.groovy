@@ -92,12 +92,12 @@ class UserServiceImpl implements UserService {
 
     @Override
     AppUser getUser(String username) {
-        return findExistingUser()
+        return userRepository.findByUsername(username)
     }
 
     @Override
     List<AppUser> getUsers() {
-        return users.findAll()
+        return userRepository.findAll()
     }
 
     @Override

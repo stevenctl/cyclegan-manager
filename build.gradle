@@ -58,7 +58,6 @@ dependencies {
     // Test
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
-    testCompile('org.springframework.data:spring-data-mongodb-test')
     testCompile('com.github.fakemongo:fongo:2.2.0-RC2')
     testCompile('com.lordofthejars:nosqlunit-mongodb:1.0.0-rc.5')
 
