@@ -1,7 +1,5 @@
 package com.slandow.cycleganmanager.services
 
-import com.lordofthejars.nosqlunit.annotation.ShouldMatchDataSet
-import com.lordofthejars.nosqlunit.annotation.UsingDataSet
 import com.slandow.cycleganmanager.model.AppUser
 import com.slandow.cycleganmanager.repository.AppUserRepository
 import com.slandow.cycleganmanager.services.impl.UserServiceImpl
@@ -16,12 +14,8 @@ import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.test.context.junit4.SpringRunner
 
-import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertNull
-import static org.junit.Assert.assertTrue
-import static org.junit.Assert.fail
+import static org.junit.Assert.*
 import static org.mockito.Mockito.verify
-import static org.mockito.Mockito.verifyNoMoreInteractions
 import static org.mockito.Mockito.when
 
 @RunWith(SpringRunner)
@@ -102,7 +96,7 @@ class UserService_UT {
     }
 
     @Test
-    void testUpdateUserFailsWhenUserDoesNotExist(){
+    void testUpdateUserFailsWhenUserDoesNotExist() {
         // Given
         final newUser = new AppUser(username: "username", password: "Password123!", email: "user@example.com")
 
@@ -117,7 +111,7 @@ class UserService_UT {
     }
 
     @Test
-    void testUpdateUserFailsWhenUsernameIsDifferent(){
+    void testUpdateUserFailsWhenUsernameIsDifferent() {
         // Given
         final savedUser = new AppUser(username: "username", password: "Password1!", email: "user@example.com")
         when(userRepository.findByUsername("username")).thenReturn(savedUser)
@@ -134,7 +128,7 @@ class UserService_UT {
     }
 
     @Test
-    void testUpdateUserSavesUserAndEncodesPassword(){
+    void testUpdateUserSavesUserAndEncodesPassword() {
         // Given
         final savedUser = new AppUser(username: "username", password: "Password1!", email: "user@example.com")
         when(userRepository.findByUsername("username")).thenReturn(savedUser)
@@ -150,7 +144,7 @@ class UserService_UT {
     }
 
     @Test
-    void testDeleteUserFailsWhenUserDoesNotExist(){
+    void testDeleteUserFailsWhenUserDoesNotExist() {
         // Given there is no user with username "username"
 
         // When
@@ -164,7 +158,7 @@ class UserService_UT {
     }
 
     @Test
-    void testDeleteUserRemovesUser(){
+    void testDeleteUserRemovesUser() {
         // Given
         final savedUser = new AppUser(username: "username", password: "Password1!", email: "user@example.com")
         when(userRepository.findByUsername("username")).thenReturn(savedUser)
@@ -177,7 +171,7 @@ class UserService_UT {
     }
 
     @Test
-    void testGetUserReturnsNullIfUserDoesNotExist(){
+    void testGetUserReturnsNullIfUserDoesNotExist() {
         // Given there is no user with username "username"
 
         // When
@@ -188,7 +182,7 @@ class UserService_UT {
     }
 
     @Test
-    void testGetUser(){
+    void testGetUser() {
         // Given
         final savedUser = new AppUser(username: "username", password: "Password1!", email: "user@example.com")
         when(userRepository.findByUsername("username")).thenReturn(savedUser)
@@ -201,7 +195,7 @@ class UserService_UT {
     }
 
     @Test
-    void testGetAllUsers(){
+    void testGetAllUsers() {
         // Given
         final savedUsers = [
                 new AppUser(username: "username", password: "Password1!", email: "user@example.com"),
@@ -218,17 +212,17 @@ class UserService_UT {
     }
 
     @Test
-    void testGetAllUsersPaged(){
+    void testGetAllUsersPaged() {
         // Given
         final savedUsers = [
                 new AppUser(username: "username", password: "Password1!", email: "user@example.com"),
                 new AppUser(username: "username1", password: "Password2!", email: "user1@example.com"),
                 new AppUser(username: "username2", password: "Password3!", email: "user2@example.com")
         ]
-        when(userRepository.findAll(new PageRequest(0,1))).thenReturn(new PageImpl<AppUser>([savedUsers[0]]))
+        when(userRepository.findAll(new PageRequest(0, 1))).thenReturn(new PageImpl<AppUser>([savedUsers[0]]))
 
         // When
-        final retrievedUsers = userService.getUsers(0,1)
+        final retrievedUsers = userService.getUsers(0, 1)
 
         // Then
         assertEquals([savedUsers[0]], retrievedUsers)
