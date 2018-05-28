@@ -1,7 +1,0 @@
-.custom-parallax {
-    /* Create the parallax scrolling effect */
-    background-attachment: fixed;
-    background-position: top left;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
