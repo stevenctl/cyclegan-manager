@@ -1,9 +1,6 @@
 <template>
     <v-app dark>
-        <v-toolbar>
-            <v-icon color="red">insert_chart</v-icon>
-            <v-toolbar-title>CycleGAN Manager</v-toolbar-title>
-        </v-toolbar>
+        <navigation-bar></navigation-bar>
         <v-content>
                 <router-view></router-view>
         </v-content>
@@ -12,9 +9,10 @@
 </template>
 
 <script>
-
+    import NavigationBar from './NavigationBar'
 
     export default {
-        name: "layout"
+        name: "layout",
+        components: {NavigationBar}
     }
 </script>
