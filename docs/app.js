@@ -149,8 +149,8 @@ var __makeRelativeRequire = function(require, mappings, pref) {
   }
 };
 
-require.register("brunch/node_modules/process/browser.js", function(exports, require, module) {
-  require = __makeRelativeRequire(require, {}, "brunch/node_modules/process");
+require.register("process/browser.js", function(exports, require, module) {
+  require = __makeRelativeRequire(require, {}, "process");
   (function() {
     // shim for using process in browser
 var process = module.exports = {};
@@ -40040,7 +40040,7 @@ exports.default = new _vueRouter2.default({
 });
 });
 
-;require.alias("brunch/node_modules/process/browser.js", "process");
+;require.alias("process/browser.js", "process");
 require.alias("vue/dist/vue.runtime.common.js", "vue");
 require.alias("vue-hot-reload-api/dist/index.js", "vue-hot-reload-api");
 require.alias("vue-router/dist/vue-router.common.js", "vue-router");
