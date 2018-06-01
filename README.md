@@ -1,5 +1,7 @@
 # CycleGAN Manager
 
+http://gradman.herokuapp.com/
+
 This project will be a web portal that will utilize:
 
 - [Paperspace API](https://www.paperspace.com/api) (and maybe AWS, eventually) to access GPU powered machines
