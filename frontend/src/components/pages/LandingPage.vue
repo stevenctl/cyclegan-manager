@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="custom-parallax"
-             style="background-image: url('noise.jpg'); height: 62vh">
+             style="background-image: url('public/noise.jpg'); height: 62vh">
             <v-jumbotron >
                 <v-container fill-height>
                     <v-layout align-center>
@@ -28,26 +28,26 @@
                 <v-flex md2></v-flex>
                 <v-flex md2>
                     <a href="https://www.paperspace.com/&R=LIISII">
-                        <img src="/paperspace.png"
+                        <img src="public/paperspace.png"
                              style="width: 100%; display: block; margin: auto">
                     </a>
                 </v-flex>
                 <v-flex md2>
                     <a href="https://aws.amazon.com/">
-                        <img src="/amazon.png"
+                        <img src="public/amazon.png"
                              style="width: 100%; display: block; margin: auto">
                     </a>
                 </v-flex>
                 <v-flex md2>
                     <a href="https://www.nvidia.com/en-us/gpu-cloud/">
-                        <img src="/nvidia.png"
+                        <img src="public/nvidia.png"
                              style="width: 100%; display: block; margin: auto;">
                     </a>
                 </v-flex>
             </v-layout>
         </v-container>
         <div class="custom-parallax"
-             style="background-image: url('full.jpg'); height: 62vh">
+             style="background-image: url('public/full.jpg'); height: 62vh">
             <v-jumbotron >
                 <v-container fill-height>
                     <v-layout align-center>

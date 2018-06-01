@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-PROFILE=$1
-if [ -z PROFILE ]
-then
-    PROFILE="dev"
-fi
-
 cd frontend
-npm install
 
-NODE_ENV=$PROFILE brunch build
+npm install
+npm run build
+
+cd ..
+
+rm -r src/main/resources/static
+mkdir src/main/resources/static
+cp frontend/index.html src/main/resources/static
+cp -r frontend/public src/main/resources/static
+cp -r frontend/dist src/main/resources/static

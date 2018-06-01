@@ -6,7 +6,7 @@ import Vue from 'vue/dist/vue'
 Vue.use(VueRouter)
 
 export default new VueRouter({
-    mode: 'history',
+    mode: 'hash',
     routes: [
         {
             path: "/",

@@ -23,20 +23,6 @@ repositories {
 	mavenCentral()
 }
 
-task buildVueApp(type: Exec) {
-	def profile = (project.hasProperty('profile') ? project.profile : 'dev').toLowerCase()
-	commandLine "$projectDir/build_frontend.sh", profile
-}
-
-task copyVueApp(type: Copy) {
-	from 'frontend/public' into 'src/main/resources/static'
-}
-
-processResources {
-	buildVueApp
-	copyVueApp
-}
-
 dependencies {
 
     // Spring
