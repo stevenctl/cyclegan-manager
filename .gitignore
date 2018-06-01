@@ -26,5 +26,3 @@
 /nbdist/
 /.nb-gradle/
 
-## Built Files
-src/main/resources/static/**
