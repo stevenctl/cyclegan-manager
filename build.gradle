@@ -46,7 +46,7 @@ dependencies {
     testCompile('org.springframework.security:spring-security-test')
     testCompile('com.github.fakemongo:fongo:2.2.0-RC2')
     testCompile('com.lordofthejars:nosqlunit-mongodb:1.0.0-rc.5')
-    compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.3')
+    testCompile('de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.3')
 
 }
 
