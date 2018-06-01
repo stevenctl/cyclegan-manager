@@ -14,7 +14,7 @@ class SecurityConstants {
 
     public static String LOGIN_URL = "/login"
 
-    public static List<String> UNSECURED_URLS = [LOGIN_URL, "/", "/index.html", "/app.js", "/img/**"]
+    public static List<String> UNSECURED_URLS = [LOGIN_URL, "/", "/index.html", "/dist/*", "/public/*", "favicon-32x32.png"]
 
     public static final String TOKEN_PREFIX = "Bearer "
     public static final String HEADER_STRING = "Authorization"
